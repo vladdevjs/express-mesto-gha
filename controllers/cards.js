@@ -34,12 +34,12 @@ const deleteCard = (req, res) => {
     .then((card) => {
       if (!card) {
         return res
-          .status(404)
-          .send({ message: 'Запрашиваемая карточка не найдена' });
+          .status(400)
+          .send({ message: 'Предоставлены некорректные данные' });
       }
-      return res.status(200).send(formatCard(card));
+      return res.send(formatCard(card));
     })
-    .catch(() => {
+    .catch((err) => {
       res.status(500).send({ message: 'Произошла ошибка' });
     });
 };
