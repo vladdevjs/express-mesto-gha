@@ -6,8 +6,8 @@ const getAllCards = (req, res) => {
     .then((cards) => {
       res.status(200).send(cards.map(formatCard));
     })
-    .catch((err) => {
-      res.status(500).send({ error: 'Произошла ошибка' });
+    .catch(() => {
+      res.status(500).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -36,9 +36,9 @@ const deleteCard = (req, res) => {
           .status(404)
           .send({ message: 'Запрашиваемая карточка не найдена' });
       }
-      res.status(200).send(formatCard(card));
+      return res.status(200).send(formatCard(card));
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({ message: 'Произошла ошибка' });
     });
 };
@@ -47,7 +47,7 @@ const likeCard = (req, res) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true }
+    { new: true },
   )
     .then((card) => {
       if (!card) {

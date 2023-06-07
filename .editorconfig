@@ -25,6 +25,11 @@ charset = utf-8
 # Possible values - true, false
 trim_trailing_whitespace = true
 
+# Enforce trailing commas
+# Add or modify the following line in your .editorconfig file
+# to enforce trailing commas
+comma = always
+
 [*.md]
 trim_trailing_whitespace = false
 
