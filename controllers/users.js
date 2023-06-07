@@ -6,7 +6,7 @@ const getUsers = (req, res) => {
     .then((users) => {
       res.status(200).send(users.map(formatUser));
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({ message: 'Произошла ошибка' });
     });
 };
@@ -21,10 +21,9 @@ const getUserById = (req, res) => {
           .status(404)
           .send({ message: 'Запрашиваемый пользователь не найден' });
       }
-
-      res.send(formatUser(user));
+      return res.send(formatUser(user));
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({ message: 'Произошла ошибка' });
     });
 };
@@ -49,7 +48,7 @@ const updateUser = (req, res) => {
   User.findByIdAndUpdate(
     req.user._id,
     { name, about },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   )
     .then((user) => {
       if (!user) {
@@ -57,9 +56,9 @@ const updateUser = (req, res) => {
           .status(404)
           .send({ message: 'Запрашиваемый пользователь не найден' });
       }
-      res.send(formatUser(user));
+      return res.send(formatUser(user));
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({ message: 'Произошла ошибка' });
     });
 };
@@ -69,7 +68,7 @@ const updateAvatar = (req, res) => {
   User.findByIdAndUpdate(
     req.user._id,
     { avatar },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   )
     .then((user) => {
       if (!user) {
@@ -77,9 +76,9 @@ const updateAvatar = (req, res) => {
           .status(404)
           .send({ message: 'Запрашиваемый пользователь не найден' });
       }
-      res.send(formatUser(user));
+      return res.send(formatUser(user));
     })
-    .catch((err) => {
+    .catch(() => {
       res.status(500).send({ message: 'Произошла ошибка' });
     });
 };

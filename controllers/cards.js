@@ -94,5 +94,5 @@ module.exports = {
   createCard,
   deleteCard,
   likeCard,
-  unLikeCard
+  unLikeCard,
 };
