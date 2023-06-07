@@ -70,7 +70,7 @@ const unLikeCard = (req, res) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } },
-    { new: true }
+    { new: true },
   )
     .then((card) => {
       if (!card) {
@@ -89,4 +89,10 @@ const unLikeCard = (req, res) => {
     });
 };
 
-module.exports = { getAllCards, createCard, deleteCard, likeCard, unLikeCard };
+module.exports = {
+  getAllCards,
+  createCard,
+  deleteCard,
+  likeCard,
+  unLikeCard
+};
