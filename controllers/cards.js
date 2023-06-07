@@ -34,7 +34,7 @@ const deleteCard = (req, res) => {
     .then((card) => {
       if (!card) {
         return res
-          .status(400)
+          .status(404)
           .send({ message: 'Запрашиваемая карточка не найдена' });
       }
       return res.send(formatCard(card));
@@ -81,7 +81,7 @@ const unLikeCard = (req, res) => {
       if (!card) {
         return res
           .status(404)
-          .send({ error: 'Запрашиваемая карточка не найдена' });
+          .send({ message: 'Запрашиваемая карточка не найдена' });
       }
       return res.send(formatCard(card));
     })
