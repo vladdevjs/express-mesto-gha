@@ -28,6 +28,10 @@ app.use((req, res, next) => {
 app.use('/', userRoutes);
 app.use('/', cardRoutes);
 
+app.all('*', (req, res) => {
+  res.status(404).send({ message: 'Запрашиваемый ресурс не найден' });
+});
+
 app.listen(PORT, () => {
   console.log(`Прослушиваю порт ${PORT}`);
 });

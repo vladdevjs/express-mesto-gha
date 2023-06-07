@@ -26,7 +26,7 @@ const getUserById = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({ message: 'Предоставлены некорректные данные.' });
+        res.status(400).send({ message: 'Предоставлены некорректные данные' });
         return;
       }
       res.status(500).send({ message: 'Произошла ошибка' });
@@ -65,10 +65,10 @@ const updateUser = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Предоставлены некорректные данные.' });
+        res.status(400).send({ message: 'Предоставлены некорректные данные' });
         return;
       }
-      res.status(500).send({ message: "Произошла ошибка" });
+      res.status(500).send({ message: 'Произошла ошибка' });
     });
 };
 
