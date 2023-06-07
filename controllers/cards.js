@@ -35,11 +35,15 @@ const deleteCard = (req, res) => {
       if (!card) {
         return res
           .status(400)
-          .send({ message: 'Предоставлены некорректные данные' });
+          .send({ message: 'Запрашиваемая карточка не найдена' });
       }
       return res.send(formatCard(card));
     })
     .catch((err) => {
+      if (err.name === 'CastError') {
+        res.status(400).send({ message: 'Предоставлены некорректные данные.' });
+        return;
+      }
       res.status(500).send({ message: 'Произошла ошибка' });
     });
 };
