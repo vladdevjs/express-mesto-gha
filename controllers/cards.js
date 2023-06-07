@@ -2,13 +2,15 @@ const Card = require('../models/card');
 
 const { formatCard } = require('../helpers/card');
 
+const { notFound, badRequest, defaultError } = require('../helpers/errors');
+
 const getAllCards = (req, res) => {
   Card.find({})
     .then((cards) => {
-      res.status(200).send(cards.map(formatCard));
+      res.send(cards.map(formatCard));
     })
     .catch(() => {
-      res.status(500).send({ message: 'Произошла ошибка' });
+      res.status(defaultError).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -22,10 +24,10 @@ const createCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Предоставлены некорректные данные' });
+        res.status(badRequest).send({ message: 'Предоставлены некорректные данные' });
         return;
       }
-      res.status(500).send({ message: 'Произошла ошибка' });
+      res.status(defaultError).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -34,17 +36,17 @@ const deleteCard = (req, res) => {
     .then((card) => {
       if (!card) {
         return res
-          .status(404)
+          .status(notFound)
           .send({ message: 'Запрашиваемая карточка не найдена' });
       }
       return res.send(formatCard(card));
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({ message: 'Предоставлены некорректные данные.' });
+        res.status(badRequest).send({ message: 'Предоставлены некорректные данные.' });
         return;
       }
-      res.status(500).send({ message: 'Произошла ошибка' });
+      res.status(defaultError).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -57,17 +59,17 @@ const likeCard = (req, res) => {
     .then((card) => {
       if (!card) {
         return res
-          .status(404)
+          .status(notFound)
           .send({ message: 'Запрашиваемая карточка не найдена' });
       }
       return res.send(formatCard(card));
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({ message: 'Предоставлены некорректные данные.' });
+        res.status(badRequest).send({ message: 'Предоставлены некорректные данные.' });
         return;
       }
-      res.status(500).send({ message: 'Произошла ошибка' });
+      res.status(defaultError).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -80,17 +82,17 @@ const unLikeCard = (req, res) => {
     .then((card) => {
       if (!card) {
         return res
-          .status(404)
+          .status(notFound)
           .send({ message: 'Запрашиваемая карточка не найдена' });
       }
       return res.send(formatCard(card));
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({ message: 'Предоставлены некорректные данные.' });
+        res.status(badRequest).send({ message: 'Предоставлены некорректные данные.' });
         return;
       }
-      res.status(500).send({ message: 'Произошла ошибка' });
+      res.status(defaultError).send({ message: 'Произошла ошибка' });
     });
 };
 

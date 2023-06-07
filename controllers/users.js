@@ -2,13 +2,15 @@ const User = require('../models/user');
 
 const { formatUser } = require('../helpers/user');
 
+const { notFound, badRequest, defaultError } = require('../helpers/errors');
+
 const getUsers = (req, res) => {
   User.find({})
     .then((users) => {
-      res.status(200).send(users.map(formatUser));
+      res.send(users.map(formatUser));
     })
     .catch(() => {
-      res.status(500).send({ message: 'Произошла ошибка' });
+      res.status(defaultError).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -19,17 +21,17 @@ const getUserById = (req, res) => {
     .then((user) => {
       if (!user) {
         return res
-          .status(404)
+          .status(notFound)
           .send({ message: 'Запрашиваемый пользователь не найден' });
       }
       return res.send(formatUser(user));
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({ message: 'Предоставлены некорректные данные' });
+        res.status(badRequest).send({ message: 'Предоставлены некорректные данные' });
         return;
       }
-      res.status(500).send({ message: 'Произошла ошибка' });
+      res.status(defaultError).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -41,10 +43,10 @@ const createUser = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Предоставлены некорректные данные' });
+        res.status(badRequest).send({ message: 'Предоставлены некорректные данные' });
         return;
       }
-      res.status(500).send({ message: 'Произошла ошибка' });
+      res.status(defaultError).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -58,17 +60,17 @@ const updateUser = (req, res) => {
     .then((user) => {
       if (!user) {
         return res
-          .status(404)
+          .status(notFound)
           .send({ message: 'Запрашиваемый пользователь не найден' });
       }
       return res.send(formatUser(user));
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Предоставлены некорректные данные' });
+        res.status(badRequest).send({ message: 'Предоставлены некорректные данные' });
         return;
       }
-      res.status(500).send({ message: 'Произошла ошибка' });
+      res.status(defaultError).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -82,13 +84,13 @@ const updateAvatar = (req, res) => {
     .then((user) => {
       if (!user) {
         return res
-          .status(404)
+          .status(notFound)
           .send({ message: 'Запрашиваемый пользователь не найден' });
       }
       return res.send(formatUser(user));
     })
     .catch(() => {
-      res.status(500).send({ message: 'Произошла ошибка' });
+      res.status(defaultError).send({ message: 'Произошла ошибка' });
     });
 };
 
