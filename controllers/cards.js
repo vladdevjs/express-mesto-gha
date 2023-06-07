@@ -1,5 +1,4 @@
 const Card = require('../models/card');
-
 const { formatCard } = require('../helpers/card');
 
 const getAllCards = (req, res) => {

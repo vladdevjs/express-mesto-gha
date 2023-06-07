@@ -1,8 +1,6 @@
 {
   "rules": {
-    "import/newline-after-import": "off",
     "no-underscore-dangle": ["error", { "allow": ["_id"] }],
-
   },
   "extends": "airbnb-base"
 }

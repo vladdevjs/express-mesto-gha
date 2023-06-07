@@ -1,4 +1,4 @@
-const formatCard = (card) => ({
+module.exports.formatCard = (card) => ({
   name: card.name,
   link: card.link,
   createdAt: card.createdAt,
@@ -6,5 +6,3 @@ const formatCard = (card) => ({
   owner: card.owner,
   _id: card._id,
 });
-
-module.exports = { formatCard };

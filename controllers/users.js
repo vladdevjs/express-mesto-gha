@@ -1,5 +1,4 @@
 const User = require('../models/user');
-
 const { formatUser } = require('../helpers/user');
 
 const getUsers = (req, res) => {
