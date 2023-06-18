@@ -82,7 +82,7 @@ const createUser = (req, res, next) => {
           throw err;
         })
         .catch(next);
-    });
+    }).catch(next);
 };
 
 const login = (req, res, next) => {
