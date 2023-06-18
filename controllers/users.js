@@ -86,9 +86,10 @@ const createUser = (req, res, next) => {
 };
 
 const login = (req, res, next) => {
-  const { email } = req.body;
+  const { email, password } = req.body;
 
-  return User.findUserByCredentials(email)
+
+  return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, 'secret-key', {
         expiresIn: '7d',
