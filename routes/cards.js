@@ -2,6 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 
+const { celebrate, Joi } = require('celebrate');
+
 const {
   getAllCards,
   createCard,
@@ -12,7 +14,16 @@ const {
 
 router.get('/cards', getAllCards);
 
-router.post('/cards/', createCard);
+router.post(
+  '/cards/',
+  celebrate({
+    body: Joi.object().keys({
+      name: Joi.string().min(2).max(30),
+      link: Joi.string().uri(),
+    }),
+  }),
+  createCard,
+);
 
 router.delete('/cards/:cardId', deleteCard);
 
