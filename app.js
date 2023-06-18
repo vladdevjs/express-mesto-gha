@@ -7,6 +7,7 @@ const userRoutes = require('./routes/users');
 const cardRoutes = require('./routes/cards');
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+const extractJWT = require('./middlewares/extractJWT');
 const handleError = require('./middlewares/handleError');
 
 const NotFoundError = require('./errors/not-found-err');
@@ -18,6 +19,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(extractJWT);
 
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
