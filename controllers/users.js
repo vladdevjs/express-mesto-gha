@@ -80,9 +80,9 @@ const createUser = (req, res, next) => {
             throw new BadRequestError('Предоставлены некорректные данные');
           }
           throw err;
-        });
-    })
-    .catch(next);
+        })
+        .catch(next);
+    });
 };
 
 const login = (req, res, next) => {
