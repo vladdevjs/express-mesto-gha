@@ -25,7 +25,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: defaultAvatar,
     validate: {
-      validator: (v) => validator.isURL(v),
+      // eslint-disable-next-line func-names, object-shorthand
+      validator: function (v) {
+        // eslint-disable-next-line no-useless-escape
+        return /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/.test(v);
+      },
       message: 'Некорректный формат ссылки на аватар',
     },
   },
