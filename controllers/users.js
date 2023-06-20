@@ -20,12 +20,8 @@ const getUserById = (req, res, next) => {
   const { userId } = req.params;
 
   User.findById(userId)
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Запрашиваемый пользователь не найден');
-      }
-      return res.send(formatUser(user));
-    })
+    .orFail(new NotFoundError('Запрашиваемый пользователь не найден'))
+    .then((user) => res.send(formatUser(user)))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Предоставлены некорректные данные'));
@@ -37,12 +33,8 @@ const getUserById = (req, res, next) => {
 
 const getUserInfo = (req, res, next) => {
   User.findOne({ _id: req.user._id })
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Запрашиваемый пользователь не найден');
-      }
-      res.send(formatUser(user));
-    })
+    .orFail(new NotFoundError('Запрашиваемый пользователь не найден'))
+    .then((user) => res.send(formatUser(user)))
     .catch(next);
 };
 
@@ -112,12 +104,8 @@ const updateUser = (req, res, next) => {
     { name, about },
     { new: true, runValidators: true },
   )
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Запрашиваемый пользователь не найден');
-      }
-      return res.send(formatUser(user));
-    })
+    .orFail(new NotFoundError('Запрашиваемый пользователь не найден'))
+    .then((user) => res.send(formatUser(user)))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Предоставлены некорректные данные'));
@@ -134,12 +122,8 @@ const updateAvatar = (req, res, next) => {
     { avatar },
     { new: true, runValidators: true },
   )
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Запрашиваемый пользователь не найден');
-      }
-      return res.send(formatUser(user));
-    })
+    .orFail(new NotFoundError('Запрашиваемый пользователь не найден'))
+    .then((user) => res.send(formatUser(user)))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Предоставлены некорректные данные'));

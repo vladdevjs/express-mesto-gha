@@ -34,10 +34,9 @@ const createCard = (req, res, next) => {
 const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
   Card.findById(cardId)
+    .orFail(new NotFoundError('Запрашиваемая карточка не найдена'))
     .then((card) => {
-      if (!card) {
-        throw new NotFoundError('Запрашиваемая карточка не найдена');
-      } else if (card.owner.toString() !== req.user._id) {
+      if (card.owner.toString() !== req.user._id) {
         throw new ForbiddenError('Нет прав на удаление карточки');
       }
       return Card.findByIdAndRemove(cardId);
@@ -58,12 +57,8 @@ const likeCard = (req, res, next) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
-    .then((card) => {
-      if (!card) {
-        throw new NotFoundError('Запрашиваемая карточка не найдена');
-      }
-      return res.send(formatCard(card));
-    })
+    .orFail(new NotFoundError('Запрашиваемая карточка не найдена'))
+    .then((card) => res.send(formatCard(card)))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Предоставлены некорректные данные'));
@@ -79,12 +74,8 @@ const unLikeCard = (req, res, next) => {
     { $pull: { likes: req.user._id } },
     { new: true },
   )
-    .then((card) => {
-      if (!card) {
-        throw new NotFoundError('Запрашиваемая карточка не найдена');
-      }
-      return res.send(formatCard(card));
-    })
+    .orFail(new NotFoundError('Запрашиваемая карточка не найдена'))
+    .then((card) => res.send(formatCard(card)))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Предоставлены некорректные данные'));
