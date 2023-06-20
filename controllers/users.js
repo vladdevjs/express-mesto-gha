@@ -28,11 +28,11 @@ const getUserById = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        throw new BadRequestError('Предоставлены некорректные данные');
+        next(new BadRequestError('Предоставлены некорректные данные'));
+      } else {
+        next(err);
       }
-      throw err;
-    })
-    .catch(next);
+    });
 };
 
 const getUserInfo = (req, res, next) => {
@@ -77,12 +77,12 @@ const createUser = (req, res, next) => {
         })
         .catch((err) => {
           if (err.name === 'ValidationError') {
-            throw new BadRequestError('Предоставлены некорректные данные');
+            next(new BadRequestError('Предоставлены некорректные данные'));
+          } else {
+            next(err);
           }
-          throw err;
-        })
-        .catch(next);
-    }).catch(next);
+        });
+    });
 };
 
 const login = (req, res, next) => {
@@ -101,9 +101,8 @@ const login = (req, res, next) => {
         .send({ message: 'Авторизация прошла успешно' });
     })
     .catch((err) => {
-      throw new UnAuthError(`Ошибка авторизации: ${err.message}`);
-    })
-    .catch(next);
+      next(new UnAuthError(`Ошибка авторизации: ${err.message}`));
+    });
 };
 
 const updateUser = (req, res, next) => {
@@ -121,11 +120,11 @@ const updateUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new BadRequestError('Предоставлены некорректные данные');
+        next(new BadRequestError('Предоставлены некорректные данные'));
+      } else {
+        next(err);
       }
-      throw err;
-    })
-    .catch(next);
+    });
 };
 
 const updateAvatar = (req, res, next) => {
@@ -143,11 +142,11 @@ const updateAvatar = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new BadRequestError('Предоставлены некорректные данные');
+        next(new BadRequestError('Предоставлены некорректные данные'));
+      } else {
+        next(err);
       }
-      throw err;
-    })
-    .catch(next);
+    });
 };
 
 module.exports = {
