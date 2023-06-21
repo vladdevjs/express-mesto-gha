@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { ValidationError, CastError } = require('mongoose').Error;
 const User = require('../models/user');
 const { formatUser } = require('../helpers/formatUser');
 
@@ -23,7 +24,7 @@ const getUserById = (req, res, next) => {
     .orFail(new NotFoundError('Запрашиваемый пользователь не найден'))
     .then((user) => res.send(formatUser(user)))
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err instanceof CastError) {
         next(new BadRequestError('Предоставлены некорректные данные'));
       } else {
         next(err);
@@ -68,7 +69,7 @@ const createUser = (req, res, next) => {
           res.send(formatUser(user));
         })
         .catch((err) => {
-          if (err.name === 'ValidationError') {
+          if (err instanceof ValidationError) {
             next(new BadRequestError('Предоставлены некорректные данные'));
           } else {
             next(err);
@@ -107,7 +108,7 @@ const updateUser = (req, res, next) => {
     .orFail(new NotFoundError('Запрашиваемый пользователь не найден'))
     .then((user) => res.send(formatUser(user)))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err instanceof ValidationError) {
         next(new BadRequestError('Предоставлены некорректные данные'));
       } else {
         next(err);
@@ -125,7 +126,7 @@ const updateAvatar = (req, res, next) => {
     .orFail(new NotFoundError('Запрашиваемый пользователь не найден'))
     .then((user) => res.send(formatUser(user)))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err instanceof ValidationError) {
         next(new BadRequestError('Предоставлены некорректные данные'));
       } else {
         next(err);

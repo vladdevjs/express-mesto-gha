@@ -1,3 +1,5 @@
+const { ValidationError, CastError } = require('mongoose').Error;
+
 const Card = require('../models/card');
 
 const { formatCard } = require('../helpers/formatCard');
@@ -23,7 +25,7 @@ const createCard = (req, res, next) => {
       res.send(formatCard(card));
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err instanceof ValidationError) {
         next(new BadRequestError(err.message));
       } else {
         next(err);
@@ -43,7 +45,7 @@ const deleteCard = (req, res, next) => {
     })
     .then((deletedCard) => res.send(formatCard(deletedCard)))
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err instanceof CastError) {
         next(new BadRequestError('Предоставлены некорректные данные'));
       } else {
         next(err);
@@ -60,7 +62,7 @@ const likeCard = (req, res, next) => {
     .orFail(new NotFoundError('Запрашиваемая карточка не найдена'))
     .then((card) => res.send(formatCard(card)))
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err instanceof CastError) {
         next(new BadRequestError('Предоставлены некорректные данные'));
       } else {
         next(err);
@@ -77,7 +79,7 @@ const unLikeCard = (req, res, next) => {
     .orFail(new NotFoundError('Запрашиваемая карточка не найдена'))
     .then((card) => res.send(formatCard(card)))
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err instanceof CastError) {
         next(new BadRequestError('Предоставлены некорректные данные'));
       } else {
         next(err);
