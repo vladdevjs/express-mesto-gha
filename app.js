@@ -8,7 +8,6 @@ const userRoutes = require('./routes/users');
 const cardRoutes = require('./routes/cards');
 const authRoutes = require('./routes/auths');
 const auth = require('./middlewares/auth');
-const extractJWT = require('./middlewares/extractJWT');
 const handleError = require('./middlewares/handleError');
 const documentNotFound = require('./middlewares/documentNotFound');
 
