@@ -53,10 +53,10 @@ const deleteCard = (req, res, next) => {
     });
 };
 
-const likeCard = (req, res, next) => {
+const updateCardLikes = (req, res, next, action) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
-    { $addToSet: { likes: req.user._id } },
+    action,
     { new: true },
   )
     .orFail(new NotFoundError('Запрашиваемая карточка не найдена'))
@@ -70,21 +70,14 @@ const likeCard = (req, res, next) => {
     });
 };
 
+const likeCard = (req, res, next) => {
+  const action = { $addToSet: { likes: req.user._id } };
+  updateCardLikes(req, res, next, action);
+};
+
 const unLikeCard = (req, res, next) => {
-  Card.findByIdAndUpdate(
-    req.params.cardId,
-    { $pull: { likes: req.user._id } },
-    { new: true },
-  )
-    .orFail(new NotFoundError('Запрашиваемая карточка не найдена'))
-    .then((card) => res.send(formatCard(card)))
-    .catch((err) => {
-      if (err instanceof CastError) {
-        next(new BadRequestError('Предоставлены некорректные данные'));
-      } else {
-        next(err);
-      }
-    });
+  const action = { $pull: { likes: req.user._id } };
+  updateCardLikes(req, res, next, action);
 };
 
 module.exports = {
