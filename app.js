@@ -6,12 +6,11 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const userRoutes = require('./routes/users');
 const cardRoutes = require('./routes/cards');
-const { createUser, login } = require('./controllers/users');
+const authRoutes = require('./routes/auths');
 const auth = require('./middlewares/auth');
 const extractJWT = require('./middlewares/extractJWT');
 const handleError = require('./middlewares/handleError');
 const documentNotFound = require('./middlewares/documentNotFound');
-const { validateUserCreate, validateLogin } = require('./helpers/validations');
 
 const { PORT = 3000 } = process.env;
 
@@ -27,11 +26,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
 });
 
-app.post('/signin', validateLogin, login);
-app.post('/signup', validateUserCreate, createUser);
-
+app.use('/', authRoutes);
 app.use(auth);
-
 app.use('/', userRoutes);
 app.use('/', cardRoutes);
 
