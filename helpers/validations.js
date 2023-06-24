@@ -12,7 +12,10 @@ const validateUserCreate = celebrate({
 
 const validateLogin = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().email(),
+    email: Joi.string().required().email().messages({
+      'any.required': 'Email обязателен для заполнения',
+      'string.email': 'Введите корректный адрес электронной почты',
+    }),
     password: Joi.string().required().min(8),
   }),
 });
