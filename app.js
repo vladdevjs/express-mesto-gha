@@ -10,8 +10,7 @@ const authRoutes = require('./routes/auths');
 const auth = require('./middlewares/auth');
 const handleError = require('./middlewares/handleError');
 const documentNotFound = require('./middlewares/documentNotFound');
-
-const { PORT = 3000 } = process.env;
+const { port, mongoURI } = require('./config');
 
 const app = express();
 
@@ -20,7 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
+mongoose.connect(mongoURI, {
   useNewUrlParser: true,
 });
 
@@ -35,6 +34,6 @@ app.use(errors());
 
 app.use(handleError);
 
-app.listen(PORT, () => {
-  console.log(`Прослушиваю порт ${PORT}`);
+app.listen(port, () => {
+  console.log(`Прослушиваю порт ${port}`);
 });
