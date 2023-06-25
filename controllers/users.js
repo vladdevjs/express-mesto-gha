@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const { ValidationError, CastError } = require('mongoose').Error;
 const User = require('../models/user');
 const { formatUser } = require('../helpers/formatUser');
+const { secretKey } = require('../config');
 
 const NotFoundError = require('../errors/not-found-err');
 const BadRequestError = require('../errors/bad-request-err');
@@ -83,7 +84,7 @@ const login = (req, res, next) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, 'secret-key', {
+      const token = jwt.sign({ _id: user._id }, secretKey, {
         expiresIn: '7d',
       });
       res
