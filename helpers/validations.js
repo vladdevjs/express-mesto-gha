@@ -39,11 +39,12 @@ const validateLogin = celebrate({
 
 const validateUserId = celebrate({
   params: Joi.object().keys({
-    userId: Joi.string().alphanum().hex().length(24).messages({
-      'string.alphanum': 'Идентификатор пользователя должен содержать только буквы и цифры',
-      'string.hex': 'Идентификатор пользователя должен быть в формате шестнадцатеричной строки',
-      'string.length': 'Идентификатор пользователя должен содержать {#limit} символов',
-    }),
+    userId: Joi.string().alphanum().hex().length(24)
+      .messages({
+        'string.alphanum': 'Идентификатор пользователя должен содержать только буквы и цифры',
+        'string.hex': 'Идентификатор пользователя должен быть в формате шестнадцатеричной строки',
+        'string.length': 'Идентификатор пользователя должен содержать {#limit} символов',
+      }),
   }),
 });
 
@@ -86,11 +87,12 @@ const validateCardData = celebrate({
 
 const validateCardId = celebrate({
   params: Joi.object().keys({
-    cardId: Joi.string().alphanum().hex().length(24).messages({
-      'string.alphanum': 'Идентификатор карточки должен содержать только буквы и цифры',
-      'string.hex': 'Идентификатор карточки должен быть в формате шестнадцатеричной строки',
-      'string.length': 'Идентификатор карточки должен содержать {#limit} символов',
-    }),
+    cardId: Joi.string().alphanum().hex().length(24)
+      .messages({
+        'string.alphanum': 'Идентификатор карточки должен содержать только буквы и цифры',
+        'string.hex': 'Идентификатор карточки должен быть в формате шестнадцатеричной строки',
+        'string.length': 'Идентификатор карточки должен содержать {#limit} символов',
+      }),
   }),
 });
 
