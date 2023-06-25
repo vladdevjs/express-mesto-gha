@@ -30,9 +30,9 @@ app.use('/', cardRoutes);
 
 app.use('*', documentNotFound);
 
-app.use(handleError);
-
 app.use(errors());
+
+app.use(handleError);
 
 app.listen(port, () => {
   console.log(`Прослушиваю порт ${port}`);
