@@ -24,9 +24,8 @@ mongoose.connect(mongoURI, {
 });
 
 app.use('/', authRoutes);
-app.use(auth);
-app.use('/', userRoutes);
-app.use('/', cardRoutes);
+app.use('/', auth, userRoutes);
+app.use('/', auth, cardRoutes);
 
 app.use('*', documentNotFound);
 
